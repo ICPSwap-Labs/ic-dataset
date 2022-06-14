@@ -1,42 +1,42 @@
 # ic-dataset
 
-A data storage collection including transaction management developed and designed based on the motoko language. It supports custom data type. By using TransactionManager, it can realize distributed transaction management across canisters and data collections in TCC mode. While ensuring ACID, it provides a SQL-like interface, which can easily and quickly select, insert, update and delete data.
+A data storage collection including transaction management, developed and designed based on the Motoko language. It supports custom data types. By using TransactionManager, it can realize distributed transaction management across canisters and data collections in TCC mode. While ensuring ACID, it provides a SQL-like interface, which can easily and quickly select, insert, update and delete data.
 
 ## ACID
 
-1. Atomicity: The smallest unit of work for a transaction, either all succeed or all failed.
+1. Atomicity. The smallest working unit of a transaction that either all succeeds or all fails.
 
-2. Consistency: After the transaction begins and ends, the integrity of the dataset is not compromised.
+2. Consistency. The integrity of a data set is not broken at the beginning and end of a transaction.
 
-3. Isolation: Different transactions do not affect each other.
+3. Isolation. Different transactions do not affect each other.
 
-4. Durability: After the transaction is committed, the modifications to the data are permanent and will not be lost.
+4. Persistence. After the transaction commits, changes to the data are permanent and are not lost.
 
 ## TCC
 
-1. Try Commit: Prepare to commit the transaction.
+1. Try to commit. Preparing to commit a transaction.
 
-2. Commit: If the operation is right, the transaction will be committed.
+2. Commit. If the operation is correct, the transaction will be committed.
 
-3. Rollback: If the commit fails or throws an exception, the transaction will be rollback.
+3. Rollback. If the commit fails or an exception is thrown, the transaction is rolled back.
 
 ## Transaction Isolation Level
 
 ### Repeatable Read/RR
 
-A transaction read can read the data submitted by other transactions, but under the RR isolation level, the current read of this data can only be read once. In the current transaction, no matter how many times it is read, it always returns the same value that you get at the first time. The read value will not change because other transactions modify and submit this data after the first read.
+A transaction's read can read data committed by other transactions, but at the RR isolation level, the current read of this data can only be read once. The same value obtained on the first read is returned in the current transaction, no matter how many times it is read. The value read is not changed by other transactions modifying and committing this data after the first read.
 
 ## MVCC
 
 MVCC: Multi-Version Concurrency Control.  
 
-Use version to control data problems in concurrent situations. When transaction B starts to modify the account and the transaction is not committed, when transaction A needs to read data, it will read the copy data before the modification operation of transaction B, but if A If the transaction needs to modify the data, it must wait for the B transaction to commit the transaction.
+Use versioning to control data problems in concurrent situations. When transaction B starts to modify the accounts and the transaction is not committed, when transaction A needs to read the data, it will read the copy data before transaction B's modification operation, but if A must wait for transaction B to commit the transaction if the transaction needs to modify the data.
 
-MVCC makes the database read without locking data, and ordinary query requests without locking, which improves the concurrent processing capability of the database. With MVCC, users can view the previous or previous historical versions of the current data, ensuring the I characteristic (isolation) in ACID.
+MVCC makes it possible to read data without locking the database and ordinary query requests without locking, which improves the concurrent processing capability of the database. With MVCC, users can view previous or previous historical versions of the current data, ensuring the I feature (isolation) in ACID.
 
 ## Transaction Snapshot
 
-Each transaction will get a transaction-snapshot after it is began. The transaction-snapshot saves the ID number of the transaction that is active (without commit) in the current dataset.
+A transaction snapshot is obtained after each transaction starts. The transaction snapshot holds the ID numbers of the transactions that are active (uncommitted) in the current dataset.
 
 ## Interface
 
